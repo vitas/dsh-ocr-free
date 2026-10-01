@@ -144,9 +144,20 @@ End to end on a throwaway DSH 0.2.0-rc.2 profile (`DSH_HOME=/tmp/…`): the plug
 version exemption** (unlike plugins declaring `@deepseek-ai/dsh-tools` below `0.2.0-rc.2`), the profile
 composes the row, and the host boots with it active and no load error.
 
-Not yet verified: a live model turn calling the tool. The throwaway profile could not authenticate to
-the gateway it was pointed at, so the call itself was never made. Once installed in a profile that can
-reach a model, ask any agent to run `ocr_status` (no image needed), then `ocr_image` on a file.
+Both tools were then called live by a model in a session on that profile. `ocr_status` reported
+`platform=darwin selected=vision`, `vision: available=true languages=18`; `ocr_image` on the Cyrillic
+fixture returned the seven lines unchanged in 1.7 s — engine compiled on first use — with the one
+mis-scored line separated:
+
+```
+[dsh-ocr-vision] engine=vision recognizer=accurate lines=7 time=1.7s
+=== text ===
+Договор управления Nº 14/2026
+Чл. 50, ал. 1 - Общото сьбрание създава етажна собственост
+…
+=== uncertain (confidence < 0.7) ===
+[0.50] Чл. 50, ал. 1 - Общото сьбрание създава етажна собственост
+```
 
 ## Related work
 

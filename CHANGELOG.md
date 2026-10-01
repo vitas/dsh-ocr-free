@@ -38,6 +38,10 @@ Measured while building it, and written into the code as comments:
 - cost, for honesty: 1.6 s (`accurate`) and 0.5 s (`fast`) on a 1000×200 crop; 3.0 s and 3.9 s (with
   language detection) on an 824×907 screenshot.
 
+Verified end to end before publishing: both tools called live by a model in a session on a throwaway
+DSH 0.2.0-rc.2 profile — `ocr_status` reporting the engines, `ocr_image` returning seven lines of
+Cyrillic in 1.7 s (engine compiled on first use) with the single mis-scored line listed apart.
+
 Deliberately absent: any monkey-patching of the host's model capability claims. A pasted image on a
 text-only route is refused by the host before anything is written to disk, and getting past that means
 claiming image support for a model that declares none — a session-wide change to request assembly that
