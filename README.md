@@ -153,9 +153,14 @@ So if the model itself reads your images well, declare the modality and skip thi
 what the model cannot cover: a file on disk read by path, no network and no key, an engine that reports
 its own confidence, and a second opinion when a reading has to be checked.
 
-Only that one model id was verified. Declaring `image` for an id whose gateway does not accept images
-turns every request into a provider error, so add the line per model rather than using a provider-wide
-`defaultInput`.
+Five ids on that route were then checked the same way on 2026-10-01 — `deepseek-v4.1-flash`,
+`deepseek-v4-flash`, `qwen3.8-flash`, `glm-5.3-flash` and `mimo-v2.5` — and every one of them returned
+the fixture's first line. A sixth could not be tested at all: its endpoint answers a different API
+(`requires /v1/decisions`), so nothing was declared for it rather than guessed. Two things worth knowing
+before you copy the line: a thinking model spends its budget on reasoning first (`glm-5.3-flash` read the
+image correctly and still answered with an empty string at `max_tokens: 300`), and declaring `image` for
+an id whose gateway does not accept images turns every request into a provider error — which is why the
+line goes per model, not in a provider-wide `defaultInput`.
 
 ## What it deliberately does not do
 
