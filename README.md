@@ -27,6 +27,11 @@ capability claims, no prompt rewriting, no host row overrides. A plugin that lie
 `inputModalities` changes how every request in the session is assembled; a plugin that adds a tool
 changes the tool list.
 
+The first way is worth knowing too, because it is one line and it works: declare the modality on the
+model entry in the profile (`input: [text, image]` for `llm-pi-ai`, `inputModalities` for the DeepSeek
+provider). Measured on 2026-10-01 — with that single line, a screenshot dropped into the composer on a
+hand-written b.ai route was accepted, and the model read it.
+
 ## Install
 
 ```bash
@@ -122,12 +127,42 @@ Three findings worth carrying:
   Bulgarian legal text, install `tesseract` (`brew install tesseract tesseract-lang`) and pass
   `engine: "tesseract"`; the tool will tell you if the language data is missing.
 
+## Pasted images: the one-line fix
+
+The paste flow is not closed off — it is one config line away, and on this fixture the model turned out
+to be the better reader. On 2026-10-01, on a throwaway DSH 0.2.0-rc.2 profile, a hand-written b.ai route
+was given a single extra field:
+
+```yaml
+          - id: deepseek-v4.1-flash
+            name: DeepSeek-V4.1-Flash (b.ai)
+            input: [text, image]
+```
+
+| reader of line 2 of the fixture | result |
+| --- | --- |
+| Apple Vision through this plugin (`accurate`, 1.7 s) | `Общото сьбрание …` — ъ read as ь, scored 0.50 and listed as uncertain |
+| `deepseek-v4.1-flash` on b.ai, the image sent as an image (8 s, 16.2K tokens) | `Общото събрание …` — correct, and it also reported `№` rather than `Nº`, U+2014, `м²`, and the «» quotes |
+
+The paste was accepted and persisted, with no `MODEL_DOES_NOT_SUPPORT_IMAGES`, and this plugin patched
+nothing. What it took was knowing where the `[text]` default comes from: `llm-pi-ai` falls back to it
+for model ids its catalog does not describe, and the catalog knows `deepseek-v4.1-flash` only under
+Aliyun's providers — so an id on a private gateway is exactly the case that needs the line.
+
+So if the model itself reads your images well, declare the modality and skip this plugin. Keep it for
+what the model cannot cover: a file on disk read by path, no network and no key, an engine that reports
+its own confidence, and a second opinion when a reading has to be checked.
+
+Only that one model id was verified. Declaring `image` for an id whose gateway does not accept images
+turns every request into a provider error, so add the line per model rather than using a provider-wide
+`defaultInput`.
+
 ## What it deliberately does not do
 
-- **No pasted images on a text-only route.** The host refuses such a paste up front and writes nothing
-  to disk, so there is no file for any tool to read. Fixing that means claiming image capability for a
-  model that declares none — a session-wide change this plugin will not make. Either give the model
-  real image input (an `input:` list on its provider entry) or save the picture and pass a path.
+- **No capability claims.** On a text-only route the host refuses a pasted image up front and writes
+  nothing to disk, so no tool can read it. This plugin leaves that decision where it belongs — on the
+  model entry, where one line settles it honestly — instead of claiming the capability for a model that
+  declares none.
 - **No network, ever.** Nothing leaves the machine; the only subprocesses are the compiled Vision
   engine and, if selected, `tesseract`.
 - **No silent failure.** A missing engine, an unreadable path, a compiler error and a missing
@@ -162,14 +197,14 @@ mis-scored line separated:
 ## Related work
 
 [`dsh-ocr-local`](https://www.npmjs.com/package/dsh-ocr-local) is the other plugin in this space, and
-it is a good one. It targets the *paste* flow, which requires exactly the capability claim described
-above — it patches `llm.resolveModelInfo` so the admission gate lets the image through, then reads the
+it is a good one. It targets the *paste* flow: where declaring the modality on the model entry is not an
+option, it patches `llm.resolveModelInfo` so the admission gate lets the image through, then reads the
 bytes back through `attachments.readImage()` and injects the text. Its engine is PP-OCRv5 on
 ONNX Runtime: cross-platform and strong on Chinese, at the cost of a Python virtualenv and model
 downloads on first use (it is also, at the time of writing, declared incompatible with DSH 0.2.0-rc.2
-and therefore needs `dsh plugin allow-version --accept-risk`). Choose it when pasted images on a
-text-only route are the requirement; choose this one when you want no install, no capability claim and
-nothing extra in the session's request path.
+and therefore needs `dsh plugin allow-version --accept-risk`). Choose it when the paste flow is the
+requirement and the modality cannot be declared; choose this one when you want no install, no
+capability claim and nothing extra in the session's request path.
 
 ## License
 

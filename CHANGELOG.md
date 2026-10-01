@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.1
+
+Documentation only. The "no pasted images" caveat was accurate but incomplete: the paste flow is one
+line of config away, and on 2026-10-01 that line was measured.
+
+Given `input: [text, image]` on the model entry (`llm-pi-ai`; the DeepSeek provider spells it
+`inputModalities`), a dropped screenshot on a hand-written `api.b.ai` route was accepted with no
+`MODEL_DOES_NOT_SUPPORT_IMAGES` — and `deepseek-v4.1-flash` read the Cyrillic fixture **better than
+Apple Vision does on this build**: `събрание` with the correct ъ, where Vision returns `сьбрание` and
+scores that line 0.50. The reason it was ever blocked is narrow and worth knowing: `llm-pi-ai` falls
+back to `[text]` for model ids its catalog does not describe, and the catalog knows this id only under
+Aliyun's providers.
+
+The README now names the fix, and what this plugin is still for: image **files** read by path, offline,
+with an engine that reports its own confidence.
+
 ## 0.1.0
 
 First release: two tools, no install step, no network.

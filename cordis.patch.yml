@@ -53,7 +53,10 @@
         # reaches a text-only model: the host refuses it up front
         # ("Model "x" does not support image input", MODEL_DOES_NOT_SUPPORT_IMAGES)
         # and nothing is written to disk, so there is no file for a tool to read.
-        # Getting past that requires telling the host the model accepts images —
-        # a session-wide capability claim, which this plugin deliberately does
-        # not make. Either give the model real image input (an `input:` list on
-        # its provider entry) or save the picture to a file and use ocr_image.
+        # The supported fix is one line of config rather than a plugin: declare
+        # the modality on the model entry ("input: [text, image]" for llm-pi-ai,
+        # "inputModalities" for the DeepSeek provider). Measured 2026-10-01 with
+        # b.ai/deepseek-v4.1-flash: with that line the same screenshot is
+        # accepted and correct — including the Bulgarian "събрание" that Apple
+        # Vision reads as "сьбрание" at 0.50 confidence. This plugin stays for
+        # image FILES read by path, offline, with an engine report.
