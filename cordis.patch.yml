@@ -1,0 +1,59 @@
+# Bundle-layer patch for dsh-ocr-vision.
+#
+# Applied by the loader when this package is listed in the profile's bundles (or
+# installed with `dsh plugin add`), BEFORE the profile's own cordis.patch.yml.
+# Everything here is a neutral default: the profile patch addresses the same row
+# by id (`- id: ocr-vision`) and its `config` REPLACES this one wholesale — row
+# patches do not deep-merge — so every field the settings surface must still
+# describe carries a default in the row schema as well.
+#
+# Nothing here touches a host row. The plugin adds one tool and changes no other
+# behaviour: no model capability claims, no prompt rewriting, no listeners.
+
+- insert:
+    - id: ocr-vision
+      name: dsh-ocr-vision
+      config:
+        # --- engine -------------------------------------------------------
+        # `auto` prefers Apple Vision (nothing to install, best on screenshots)
+        # and falls back to an installed tesseract. `vision` / `tesseract` pin
+        # one engine and report its failure instead of trying the other.
+        engine: auto
+
+        # Preferred languages. [] asks the engine for nothing in particular,
+        # which is the only honest default: on macOS 15.4 no Cyrillic language
+        # is even requestable, yet Cyrillic is read correctly, so a pinned
+        # "ru-RU" would be silently ignored. Vision wants "ru-RU"/"en-US";
+        # tesseract wants "rus"/"bul"/"eng".
+        langs: []
+
+        # The fast recogniser is ~3x quicker and LATIN-ONLY: asked for Cyrillic
+        # it returns Latin lookalikes ("Договор" -> "oroBOP") with high
+        # confidence and no error. Leave this false unless the images really are
+        # Latin script.
+        fast: false
+        # Let Vision guess the language too; costs 0.2-0.9 s per image.
+        detectLanguage: false
+
+        # --- output ---------------------------------------------------------
+        # Truncate the rendered text at this many characters (0 = no cap).
+        maxChars: 40000
+        # Lines the engine scored below this are listed separately, because its
+        # own confidence is the only thing separating a reading from a guess.
+        # 0 disables the section.
+        lowConfidence: 0.7
+        # Per-image engine budget.
+        timeoutMs: 120000
+        # Engine build directory; "" or null means ~/.dsh-ocr-vision.
+        dir: ""
+        # Footer with engine, timing and any warning.
+        includeEngineLine: true
+
+        # NOTE on pasted images. A screenshot pasted into the composer never
+        # reaches a text-only model: the host refuses it up front
+        # ("Model "x" does not support image input", MODEL_DOES_NOT_SUPPORT_IMAGES)
+        # and nothing is written to disk, so there is no file for a tool to read.
+        # Getting past that requires telling the host the model accepts images —
+        # a session-wide capability claim, which this plugin deliberately does
+        # not make. Either give the model real image input (an `input:` list on
+        # its provider entry) or save the picture to a file and use ocr_image.

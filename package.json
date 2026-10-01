@@ -1,0 +1,56 @@
+{
+  "name": "dsh-ocr-vision",
+  "version": "0.1.0",
+  "description": "Local OCR for DeepSeek Harness: read text out of images with Apple Vision — no network, no API key, nothing to install",
+  "license": "MIT",
+  "type": "module",
+  "main": "./index.mjs",
+  "exports": {
+    ".": "./index.mjs",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.mjs",
+    "config.mjs",
+    "src/host/index.js",
+    "src/host/host-modules.js",
+    "src/host/engines.js",
+    "src/host/vision.js",
+    "src/host/vision.swift",
+    "src/host/tesseract.js",
+    "cordis.patch.yml",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "test": "node --test \"test/**/*.test.mjs\""
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "ocr",
+    "vision",
+    "image-to-text",
+    "offline",
+    "macos"
+  ],
+  "peerDependencies": {
+    "@deepseek-ai/dsh-tools": "^0.2.0-rc.2 || >=0.1.0-rc.6 <0.2.0",
+    "@deepseek-ai/schemastery": ">=3.18.1"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-tools": {
+      "optional": true
+    }
+  }
+}
