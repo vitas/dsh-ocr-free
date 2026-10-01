@@ -194,18 +194,6 @@ mis-scored line separated:
 [0.50] Чл. 50, ал. 1 - Общото сьбрание създава етажна собственост
 ```
 
-## Related work
-
-[`dsh-ocr-local`](https://www.npmjs.com/package/dsh-ocr-local) is the other plugin in this space, and
-it is a good one. It targets the *paste* flow: where declaring the modality on the model entry is not an
-option, it patches `llm.resolveModelInfo` so the admission gate lets the image through, then reads the
-bytes back through `attachments.readImage()` and injects the text. Its engine is PP-OCRv5 on
-ONNX Runtime: cross-platform and strong on Chinese, at the cost of a Python virtualenv and model
-downloads on first use (it is also, at the time of writing, declared incompatible with DSH 0.2.0-rc.2
-and therefore needs `dsh plugin allow-version --accept-risk`). Choose it when the paste flow is the
-requirement and the modality cannot be declared; choose this one when you want no install, no
-capability claim and nothing extra in the session's request path.
-
 ## License
 
 MIT

@@ -1,6 +1,6 @@
 {
   "name": "dsh-ocr-free",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Local OCR for DeepSeek Harness: read text out of images with Apple Vision on macOS — no network, no API key, nothing to install. Falls back to tesseract elsewhere.",
   "license": "MIT",
   "type": "module",

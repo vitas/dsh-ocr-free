@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+Documentation only: the "Related work" section is gone from the README.
+
 ## 0.1.1
 
 Documentation only. The "no pasted images" caveat was accurate but incomplete: the paste flow is one
