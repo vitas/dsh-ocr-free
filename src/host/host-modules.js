@@ -14,7 +14,7 @@
  * running — which is the copy whose types and runtime behaviour this plugin was
  * written against.
  *
- * @module dsh-ocr-vision/host-modules
+ * @module dsh-ocr-free/host-modules
  */
 
 import { existsSync, realpathSync } from "node:fs";

@@ -7,7 +7,7 @@
  * asks for it (or asks for `auto` and Vision is unavailable). Its absence is
  * reported with the exact command that fixes it, never swallowed.
  *
- * @module dsh-ocr-vision/tesseract
+ * @module dsh-ocr-free/tesseract
  */
 
 import { execFile } from "node:child_process";

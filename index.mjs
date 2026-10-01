@@ -1,5 +1,5 @@
 /**
- * `dsh-ocr-vision` — read text out of images, locally.
+ * `dsh-ocr-free` — read text out of images, locally.
  *
  * A model that declares no image input cannot be handed a screenshot: the
  * harness replaces the attachment with a text note and the pixels are gone. Two
@@ -9,7 +9,7 @@
  * second: one tool, no network, no API key, no install.
  *
  * The engine is Apple Vision, compiled from `vision.swift` on first use and
- * cached under `~/.dsh-ocr-vision`. Where that is not available (no command
+ * cached under `~/.dsh-ocr-free`. Where that is not available (no command
  * line tools, or not macOS) an installed `tesseract` is used instead. When
  * neither works the tool FAILS with both reasons: an OCR tool that returns an
  * empty string would be indistinguishable from an image that holds no text.
@@ -19,7 +19,7 @@
  * session is assembled; a plugin that adds a tool changes nothing but the tool
  * list.
  *
- * @module dsh-ocr-vision
+ * @module dsh-ocr-free
  */
 
 import { PACKAGE_NAME, PLUGIN_NAME, resolveConfig } from "./config.mjs";

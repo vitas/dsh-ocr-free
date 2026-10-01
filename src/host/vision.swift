@@ -1,4 +1,4 @@
-// Apple Vision OCR engine for dsh-ocr-vision.
+// Apple Vision OCR engine for dsh-ocr-free.
 //
 // Compiled on first use by src/host/vision.js and invoked as a subprocess; it
 // talks JSON on stdout so the host half never has to parse human-readable text.

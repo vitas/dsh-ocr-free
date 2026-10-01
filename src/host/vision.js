@@ -2,7 +2,7 @@
  * Apple Vision engine: build once, then run.
  *
  * There is nothing to install. macOS ships the Vision framework, and the OCR
- * program in `vision.swift` is compiled into `~/.dsh-ocr-vision/bin/` on first
+ * program in `vision.swift` is compiled into `~/.dsh-ocr-free/bin/` on first
  * use (a few seconds) and reused afterwards. The binary name carries a hash of
  * the source, so an upgraded plugin compiles its own copy instead of running a
  * stale engine — no separate cache-invalidation step to get wrong.
@@ -11,7 +11,7 @@
  * engine is missing is worse than one that returns nothing at all: the caller
  * cannot tell "this image has no text" from "I never read the image".
  *
- * @module dsh-ocr-vision/vision
+ * @module dsh-ocr-free/vision
  */
 
 import { execFile } from "node:child_process";
@@ -30,7 +30,7 @@ export const VISION_SOURCE = fileURLToPath(new URL("./vision.swift", import.meta
 
 /** Where the compiled engine and its stamp live. */
 export function engineRoot(home = homedir()) {
-  return join(home, ".dsh-ocr-vision");
+  return join(home, ".dsh-ocr-free");
 }
 
 /** An engine failure the caller can report verbatim. */
@@ -126,7 +126,7 @@ export async function ensureVisionBinary(options = {}) {
       const detail = String(error?.stderr ?? error?.message ?? error).trim().split("\n").slice(-4).join(" | ");
       throw new OcrEngineError("compile-failed", `compiling the Vision engine failed: ${detail}`);
     }
-    logger?.info?.(`dsh-ocr-vision: compiled the Vision engine at ${binary}`);
+    logger?.info?.(`dsh-ocr-free: compiled the Vision engine at ${binary}`);
     return binary;
   })();
   builds.set(binary, build);

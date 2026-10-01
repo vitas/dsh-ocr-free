@@ -65,7 +65,7 @@ test("apply registers both tools, and no host row", async () => {
 test("the rendered output carries the engine, the text and the uncertain lines", async () => {
   const tools = await mount();
   const text = await tools.ocr_image.execute({ path: "/tmp/x.png" }, {});
-  assert.match(text, /\[dsh-ocr-vision\] engine=vision recognizer=accurate lines=2/);
+  assert.match(text, /\[dsh-ocr-free\] engine=vision recognizer=accurate lines=2/);
   assert.match(text, /=== text ===\nДоговор управления\nОбщото сьбрание/);
   assert.match(text, /=== uncertain \(confidence < 0\.7\) ===\n\[0\.50\] Общото сьбрание/);
 });

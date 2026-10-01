@@ -1,5 +1,5 @@
 /**
- * `dsh-ocr-vision` — configuration.
+ * `dsh-ocr-free` — configuration.
  *
  * The single configuration source is the plugin row's `config`: the bundle
  * patch ships defaults, the profile patch overrides the same row by id, and an
@@ -22,13 +22,13 @@
  *   samples here the Bulgarian line scored 0.50 exactly where it mis-recognised
  *   a letter.
  *
- * @module dsh-ocr-vision/config
+ * @module dsh-ocr-free/config
  */
 
 /** Row id and settings namespace. */
-export const PLUGIN_NAME = "ocr-vision";
+export const PLUGIN_NAME = "ocr-free";
 /** Published package name. */
-export const PACKAGE_NAME = "dsh-ocr-vision";
+export const PACKAGE_NAME = "dsh-ocr-free";
 /** Provenance stamped onto anything this plugin injects into a session. */
 export const PLUGIN_SOURCE_KIND = `plugin:${PLUGIN_NAME}`;
 
@@ -73,7 +73,7 @@ export function defaults() {
     lowConfidence: 0.7,
     /** Per-image engine timeout. */
     timeoutMs: 120_000,
-    /** Engine build/output directory; null means `~/.dsh-ocr-vision`. */
+    /** Engine build/output directory; null means `~/.dsh-ocr-free`. */
     dir: null,
     /** Add the engine/timing footer to the tool result. */
     includeEngineLine: true,
@@ -112,7 +112,7 @@ export function validate(config) {
     throw new Error(`${where}: timeoutMs must be a number >= 1000`);
   }
   if (config.dir !== null && config.dir !== "" && typeof config.dir !== "string") {
-    throw new Error(`${where}: dir must be a directory path, or null/"" for ~/.dsh-ocr-vision`);
+    throw new Error(`${where}: dir must be a directory path, or null/"" for ~/.dsh-ocr-free`);
   }
   return config;
 }

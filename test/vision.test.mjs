@@ -1,5 +1,5 @@
 /**
- * Engine tests for dsh-ocr-vision.
+ * Engine tests for dsh-ocr-free.
  *
  * The interesting assertions are the ones about failure: an OCR tool whose
  * engine is missing must say so, not return an empty string. The macOS-only
@@ -23,7 +23,7 @@ import {
 } from "../src/host/vision.js";
 
 const FIXTURES = fileURLToPath(new URL("./fixtures/", import.meta.url));
-const HOME = mkdtempSync(join(tmpdir(), "ocr-vision-test-"));
+const HOME = mkdtempSync(join(tmpdir(), "ocr-free-test-"));
 const MACOS = process.platform === "darwin";
 const CYRILLIC = join(FIXTURES, "cyrillic.png");
 const BLANK = join(FIXTURES, "blank.png");

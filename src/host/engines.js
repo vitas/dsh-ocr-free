@@ -1,5 +1,5 @@
 /**
- * Engine selection for dsh-ocr-vision.
+ * Engine selection for dsh-ocr-free.
  *
  * Two engines, one result shape. `auto` prefers Apple Vision (no install, best
  * accuracy on screenshots) and falls back to tesseract; an explicit choice is
@@ -10,7 +10,7 @@
  * one turns a fixable setup problem ("install the command line tools") into a
  * mystery.
  *
- * @module dsh-ocr-vision/engines
+ * @module dsh-ocr-free/engines
  */
 
 import { existsSync } from "node:fs";
@@ -54,7 +54,7 @@ export async function recognize(imagePath, options = {}) {
     return await visionAttempt();
   } catch (visionError) {
     if (!isUnavailable(visionError)) throw visionError;
-    logger?.warn?.(`dsh-ocr-vision: Vision unavailable (${visionError.code}: ${visionError.message}); trying tesseract`);
+    logger?.warn?.(`dsh-ocr-free: Vision unavailable (${visionError.code}: ${visionError.message}); trying tesseract`);
     try {
       return await recognizeWithTesseract(imagePath, { binary: rest.tesseractPath, ...rest });
     } catch (tesseractError) {

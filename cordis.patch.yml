@@ -1,9 +1,9 @@
-# Bundle-layer patch for dsh-ocr-vision.
+# Bundle-layer patch for dsh-ocr-free.
 #
 # Applied by the loader when this package is listed in the profile's bundles (or
 # installed with `dsh plugin add`), BEFORE the profile's own cordis.patch.yml.
 # Everything here is a neutral default: the profile patch addresses the same row
-# by id (`- id: ocr-vision`) and its `config` REPLACES this one wholesale — row
+# by id (`- id: ocr-free`) and its `config` REPLACES this one wholesale — row
 # patches do not deep-merge — so every field the settings surface must still
 # describe carries a default in the row schema as well.
 #
@@ -11,8 +11,8 @@
 # behaviour: no model capability claims, no prompt rewriting, no listeners.
 
 - insert:
-    - id: ocr-vision
-      name: dsh-ocr-vision
+    - id: ocr-free
+      name: dsh-ocr-free
       config:
         # --- engine -------------------------------------------------------
         # `auto` prefers Apple Vision (nothing to install, best on screenshots)
@@ -44,7 +44,7 @@
         lowConfidence: 0.7
         # Per-image engine budget.
         timeoutMs: 120000
-        # Engine build directory; "" or null means ~/.dsh-ocr-vision.
+        # Engine build directory; "" or null means ~/.dsh-ocr-free.
         dir: ""
         # Footer with engine, timing and any warning.
         includeEngineLine: true

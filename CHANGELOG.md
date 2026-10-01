@@ -4,6 +4,10 @@
 
 First release: two tools, no install step, no network.
 
+Published as **`dsh-ocr-free`**. The first name, `dsh-ocr-vision`, turned out to be already used by
+another DSH project (a RapidOCR skill), so the package was renamed while it still had no users —
+`dsh-ocr-vision@0.1.0` on npm is deprecated and points here.
+
 - **`ocr_image`** — recognise text in an image file and return it as text, with a header naming the
   engine and the timing, and a separate list of lines the engine scored below `lowConfidence`. The
   confidence list is the point: OCR output reads equally well whether it is right or wrong, and the
@@ -11,7 +15,7 @@ First release: two tools, no install step, no network.
 - **`ocr_status`** — report which engine this machine can use and why, without reading an image and
   without the side effect of building the engine.
 - **Engine** — Apple Vision, compiled from `src/host/vision.swift` on first use into
-  `~/.dsh-ocr-vision/bin/vision-ocr-<source hash>` and reused; `tesseract` is the fallback when the
+  `~/.dsh-ocr-free/bin/vision-ocr-<source hash>` and reused; `tesseract` is the fallback when the
   Swift toolchain or macOS is missing. Every failure (no engine, unreadable path, compile error,
   missing tesseract language data) is a tool error naming its cause — never an empty reading.
 - **Config** — volatile row schema, so the settings card edits apply to the next call without a host

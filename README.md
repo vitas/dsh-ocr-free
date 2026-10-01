@@ -1,4 +1,4 @@
-# dsh-ocr-vision
+# dsh-ocr-free
 
 Local OCR for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness): read the text out of
 a screenshot, photo or scan **without the network and without an API key**.
@@ -8,7 +8,7 @@ there is nothing to install either. Elsewhere an installed `tesseract` is used i
 engine is available the tool fails and says why — it never returns an empty reading.
 
 ```
-[ dsh-ocr-vision ] engine=vision recognizer=accurate lines=7 time=2.0s
+[ dsh-ocr-free ] engine=vision recognizer=accurate lines=7 time=2.0s
 === text ===
 Договор управления Nº 14/2026
 Чл. 50, ал. 1 - Общото сьбрание създава етажна собственост
@@ -31,10 +31,10 @@ changes the tool list.
 
 ```bash
 # from a package
-dsh plugin --profile web add dsh-ocr-vision
+dsh plugin --profile web add dsh-ocr-free
 
 # or from a checkout (edits take effect on the next host start)
-dsh plugin --profile web add link:~/git/dsh-ocr-vision
+dsh plugin --profile web add link:~/git/dsh-ocr-free
 ```
 
 There is no exemption to grant and no engine to install. Requires DSH `^0.2.0-rc.2` (the only version
@@ -80,7 +80,7 @@ there, whether a compiler exists, and whether tesseract is installed.
 
 ## Configuration
 
-The plugin row is `ocr-vision`; the settings card edits these fields live (no restart):
+The plugin row is `ocr-free`; the settings card edits these fields live (no restart):
 
 | field | default | meaning |
 | --- | --- | --- |
@@ -91,7 +91,7 @@ The plugin row is `ocr-vision`; the settings card edits these fields live (no re
 | `maxChars` | `40000` | truncate the rendered text (0 = no cap); truncation is always announced |
 | `lowConfidence` | `0.7` | below this, lines are listed separately (0 = no section) |
 | `timeoutMs` | `120000` | per-image engine budget |
-| `dir` | `""` | engine build directory; `""` means `~/.dsh-ocr-vision` |
+| `dir` | `""` | engine build directory; `""` means `~/.dsh-ocr-free` |
 | `includeEngineLine` | `true` | the header with engine, timing and warnings |
 
 ## Measured behaviour
@@ -150,7 +150,7 @@ fixture returned the seven lines unchanged in 1.7 s — engine compiled on first
 mis-scored line separated:
 
 ```
-[dsh-ocr-vision] engine=vision recognizer=accurate lines=7 time=1.7s
+[dsh-ocr-free] engine=vision recognizer=accurate lines=7 time=1.7s
 === text ===
 Договор управления Nº 14/2026
 Чл. 50, ал. 1 - Общото сьбрание създава етажна собственост

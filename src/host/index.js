@@ -1,5 +1,5 @@
 /**
- * Host-side schema for dsh-ocr-vision.
+ * Host-side schema for dsh-ocr-free.
  *
  * DSH 0.1.7+ made a plugin's settings surface the `Config` of its own Loader
  * row: the loader validates the row config against this export and the settings
@@ -22,7 +22,7 @@
  * back from these defaults. A field declared without one comes back missing, and
  * a missing `engine` would mean "no engine", not "the shipped engine".
  *
- * @module dsh-ocr-vision/host
+ * @module dsh-ocr-free/host
  */
 
 import { ENGINE_IDS, defaults } from "../../config.mjs";
@@ -64,7 +64,7 @@ function makeSchema(z, volatile) {
     maxChars: mark(z.number().step(1).min(0).max(1_000_000).default(d.maxChars)),
     lowConfidence: mark(z.number().min(0).max(1).default(d.lowConfidence)),
     timeoutMs: mark(z.number().step(1).min(1000).max(600_000).default(d.timeoutMs)),
-    // Engine build directory; an empty string means ~/.dsh-ocr-vision.
+    // Engine build directory; an empty string means ~/.dsh-ocr-free.
     dir: mark(z.string()),
     includeEngineLine: mark(z.boolean().default(d.includeEngineLine)),
   });
