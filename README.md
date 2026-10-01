@@ -1,11 +1,11 @@
 # dsh-ocr-vision
 
 Local OCR for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness): read the text out of
-a screenshot, photo or scan **without the network, without an API key and without installing anything**.
+a screenshot, photo or scan **without the network and without an API key**.
 
-The engine is Apple Vision, compiled from a 130-line Swift file on first use and cached. Where that is
-not available (no command-line tools, or not macOS) an installed `tesseract` is used instead. When
-neither works, the tool fails and says why — it never returns an empty reading.
+On macOS the engine is Apple Vision, compiled from a 130-line Swift file on first use and cached — so
+there is nothing to install either. Elsewhere an installed `tesseract` is used instead, and if neither
+engine is available the tool fails and says why — it never returns an empty reading.
 
 ```
 [ dsh-ocr-vision ] engine=vision recognizer=accurate lines=7 time=2.0s
@@ -37,9 +37,17 @@ dsh plugin --profile web add dsh-ocr-vision
 dsh plugin --profile web add link:~/git/dsh-ocr-vision
 ```
 
-There is no exemption to grant and no engine to install. Requires DSH `0.2.0-rc.2` (or `0.1.x` from
-`0.1.0-rc.6`), Node 22+, and — for the default engine — macOS with the Swift command-line tools
-(`xcode-select --install`); `tesseract` covers the rest.
+There is no exemption to grant and no engine to install. Requires DSH `^0.2.0-rc.2` (the only version
+this is verified against) and Node 22+.
+
+| platform | engine | what you need |
+| --- | --- | --- |
+| macOS | Apple Vision (default) | Swift command-line tools: `xcode-select --install` |
+| Linux | `tesseract` | `tesseract-ocr` from your distribution, plus language data |
+| Windows | `tesseract` | **untested** — the engine lookup does not resolve `tesseract.exe` (Node does not apply `PATHEXT` when spawning), so it will report the engine as missing even when it is installed |
+
+So the zero-install claim is a macOS claim. On Linux this is a thinner thing: a wrapper around
+`tesseract` that adds the confidence section, the live settings card and errors that name their cause.
 
 ## Tools
 

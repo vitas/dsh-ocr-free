@@ -17,9 +17,13 @@ First release: two tools, no install step, no network.
 - **Config** — volatile row schema, so the settings card edits apply to the next call without a host
   restart; every field carries its default in the schema, because a profile patch replaces the row
   config wholesale rather than merging it.
-- **Compatibility** — declares `@deepseek-ai/dsh-tools` at `^0.2.0-rc.2 || >=0.1.0-rc.6 <0.2.0`, so
-  DSH 0.2.0-rc.2 installs it without a version exemption; host packages are resolved through the host
-  entry point (and the `dsh` on PATH), so a `link:`-installed checkout behaves like a published copy.
+- **Compatibility** — declares `@deepseek-ai/dsh-tools` at `^0.2.0-rc.2` — the version this was built and
+  verified against, and one that installs it without a version exemption. The range is deliberately not
+  wider than the evidence; host packages are resolved through the host entry point (and the `dsh` on
+  PATH), so a `link:`-installed checkout behaves like a published copy.
+- **Platforms** — macOS is the supported target (Apple Vision, nothing to install). Linux works through
+  an installed `tesseract`. Windows is untested and expected not to find `tesseract.exe`, because Node
+  does not apply `PATHEXT` when spawning; the README says so instead of implying otherwise.
 
 Measured while building it, and written into the code as comments:
 
